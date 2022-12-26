@@ -70,9 +70,9 @@ export default {
   methods: {
     async deletion(_attrs) {
       this.lObjects.splice(_attrs.index, 1)
-      this.feedback = _attrs.feedback;
-      await new Promise(r => setTimeout(r, 3000));
-      this.feedback = null;
+      this.feedback = _attrs.feedback
+      await new Promise((r) => setTimeout(r, 3000))
+      this.feedback = null
     },
     async getObjects() {
       let token = localStorage.getItem('tkn')
@@ -89,7 +89,10 @@ export default {
                 [this.lObjects, this.isLoading] = [await res.data, true]
             })
             .catch((err) => {
-              console.log(err)
+              if (localStorage.getItem('tkn')) {
+                localStorage.removeItem('tkn')
+                this.$router.push('/')
+              } else console.log(err)
             })
         } catch (err) {
           console.log(err)
