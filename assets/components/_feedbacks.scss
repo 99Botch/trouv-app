@@ -1,0 +1,25 @@
+.feedback {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 17px;
+  text-transform: uppercase;
+  z-index: 99;
+}
+
+[data-feedback="0"]{
+    background-color: #d7ffd9;
+    color: #4caf50;
+}
+
+[data-feedback="1"]{
+    background-color: #c8e6ff;
+    color: #2196f3;
+}
+
+[data-feedback="2"]{
+    background-color: #ffcece;
+    color: #ff5252;
+}

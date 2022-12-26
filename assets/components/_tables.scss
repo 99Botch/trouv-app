@@ -1,0 +1,10 @@
+.text-start {
+  text-transform: capitalize;
+}
+
+.call--action {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  align-items: center;
+}

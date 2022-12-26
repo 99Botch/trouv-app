@@ -1,5 +1,6 @@
 <template>
-  <v-row justify="end" class="mt-5">
+  <v-row class="mt-5 d-flex justify-space-between" align="center" >
+    <h1 class="text-uppercase">Trouv</h1>
     <v-btn color="error" @click="logout">Me déconnecter</v-btn>
   </v-row>
 </template>
