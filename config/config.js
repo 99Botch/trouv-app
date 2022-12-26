@@ -1,7 +1,9 @@
-let axios = require('axios');
+const axios = require('axios')
+const URI = 'http://localhost:5000/trouv'
 
-let userRoute = 'http://localhost:5000/trouv/users'
+const userRoute = `${URI}/users`
+const objectRoute = `${URI}/objects`
 
-// store localhost 
-// const URI = "https://iadt-kram-api.herokuapp.com";
-export { axios, userRoute };
+const session = true
+
+export { axios, userRoute, objectRoute, session }

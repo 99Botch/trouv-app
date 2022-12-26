@@ -78,6 +78,10 @@ export default {
     },
   }),
 
+  beforeMount() {
+    if (localStorage.getItem('tkn')) this.$router.push('/objects')
+  },
+
   methods: {
     async submit() {
       const json = JSON.stringify(this.form)
@@ -92,6 +96,7 @@ export default {
             if (res.status == 200) {
               if (this.errorMessage) this.errorMessage = ''
               localStorage.setItem('tkn', res.data.token)
+              this.$router.push('/objects')
             }
           })
           .catch((err) => {
