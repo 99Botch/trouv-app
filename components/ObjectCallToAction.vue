@@ -1,7 +1,7 @@
 <template>
   <span class="call--action">
     <v-btn class="mb-2" color="error" small @click="delObject">Supprimer</v-btn>
-    <v-btn color="cyan" dark small>Actualiser</v-btn>
+    <v-btn color="primary" dark small>Actualiser</v-btn>
   </span>
 </template>
 

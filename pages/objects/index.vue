@@ -4,11 +4,13 @@
 
     <Navigation class="px-3 pb-10" />
 
+    <AddObjectBtn />
+
     <v-data-table
       :headers="headers"
       :items="lObjects"
       :items-per-page="5"
-      class="elevation-1"
+      class="elevation-1 mt-4"
     >
       <!-- ITEM DETAILS -->
       <template v-slot:item.details="{ item }">
@@ -42,6 +44,7 @@
 
 <script>
 import { axios, objectRoute } from '@/config/config'
+import AddObjectBtn from '~/components/AddObjectBtn.vue'
 import RequestFeedback from '~/components/RequestFeedback.vue'
 
 export default {
@@ -100,6 +103,6 @@ export default {
       })
     },
   },
-  components: { RequestFeedback },
+  components: { RequestFeedback, AddObjectBtn },
 }
 </script>
