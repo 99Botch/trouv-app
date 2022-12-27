@@ -1,5 +1,5 @@
 <template>
-  <v-col justify="center" align="center">
+  <v-col justify="center" align="center" v-if="isLoading">
     <h1 class="font-weight-medium my-10">Signaler l'objet perdu</h1>
 
     <v-row justify="center">
@@ -76,7 +76,10 @@
               outlined
             ></v-text-field>
           </template>
-          <v-date-picker v-model="form.when" @input="menu2 = false"></v-date-picker>
+          <v-date-picker
+            v-model="form.when"
+            @input="menu2 = false"
+          ></v-date-picker>
         </v-menu>
       </v-col>
       <v-col cols="12" sm="8" md="6" lg="4">
@@ -101,24 +104,81 @@
           outlined
         ></v-textarea>
       </v-col>
-      
-      <!-- <v-col cols="12" sm="8" md="6" lg="6">
-        <v-text-field
-          ref="object"
-          v-model="form.object"
-          :rules="[
-            (v) => !!v || '(obligatoire)',
-            (v) =>
-              (!!v && v.length <= 120) ||
-              'Le nom ne doit pas avoir plus de 120 caractères',
-          ]"
-          counter="120"
-          label="Addresse mail"
-          placeholder="votrenom@trouv.com"
-          required
-          outlined
-        ></v-text-field>
-      </v-col> -->
+      <v-col cols="12" sm="8" md="12" lg="12">
+        <label class="align--left">De quelles couleurs est l'objet?</label>
+        <span class="check--colours">
+          <v-checkbox
+            v-model="form.colours"
+            label="Blanc"
+            color="grey lighten-1"
+            value="blanc"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="form.colours"
+            label="Noir"
+            color="black"
+            value="noir"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="form.colours"
+            label="Rouge"
+            color="red"
+            value="rouge"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="form.colours"
+            label="Vert"
+            color="green"
+            value="vert"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="form.colours"
+            label="Bleu"
+            color="blue darken-1"
+            value="bleu"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="form.colours"
+            label="Jaune"
+            color="yellow darken-2"
+            value="jaune"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="form.colours"
+            label="Orange"
+            color="orange"
+            value="orange"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="form.colours"
+            label="Rose"
+            color="pink darken-2"
+            value="rose"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="form.colours"
+            label="Violet"
+            color="purple lighten-1"
+            value="violet"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="form.colours"
+            label="Marron"
+            color="brown darken-1"
+            value="marron"
+            hide-details
+          ></v-checkbox>
+        </span>
+      </v-col>
 
       <p class="caption red--text text-right mb-2 error--message">
         {{ errorMessage }}
@@ -136,12 +196,22 @@
 </template>
 
 <script>
-//   import { axios, objectRoute } from '@/config/config'
+import { axios, objectRoute } from '@/config/config'
 
 export default {
   name: 'ObjectAdd',
 
+  async beforeMount() {
+    await this.$store
+      .dispatch('auth/fetchAuth', localStorage.getItem('tkn'))
+      .then(async () => {
+        this.isLoading = true
+      })
+  },
+
   data: () => ({
+    menu2: null,
+    isLoading: false,
     dialog: false,
     sizes: ['Petit', 'Moyen', 'Grand', 'Enorme'],
     categories: [
@@ -179,28 +249,29 @@ export default {
 
   methods: {
     async submit() {
-      // const json = JSON.stringify(this.form)
-      // try {
-      //   await axios
-      //     .post(`${userRoute}/login`, json, {
-      //       headers: {
-      //         'Content-Type': 'application/json',
-      //       },
-      //     })
-      //     .then(async (res) => {
-      //       if (res.status == 200) {
-      //         if (this.errorMessage) this.errorMessage = ''
-      //         localStorage.setItem('tkn', res.data.token)
-      //         this.$router.push('/objects')
-      //       }
-      //     })
-      //     .catch((err) => {
-      //       if (err)
-      //         this.errorMessage = 'Erreur | Email ou mot de passe invalide'
-      //     })
-      // } catch (err) {
-      //   console.log(err)
-      // }
+      const json = JSON.stringify(this.form)
+      try {
+        await axios
+          .post(`${objectRoute}`, json, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('tkn')}`,
+            },
+          })
+          .then(async (res) => {
+            if (res.status == 200) {
+              if (this.errorMessage) this.errorMessage = ''
+              this.$store.commit('feedback/setFeedback', 'addition')
+              this.$router.push('/objects')
+            }
+          })
+          .catch((err) => {
+            if (err)
+              this.errorMessage = 'Erreur | Le formulaire a été mal remplit'
+          })
+      } catch (err) {
+        console.log(err)
+      }
     },
   },
 }

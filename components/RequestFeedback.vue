@@ -3,7 +3,13 @@
     class="feedback"
     :data-feedback="this.$attrs.feedback == 'deletion' ? 2 : 0"
   >
-    {{ (this.$attrs.feedback == 'deletion') ? "Objet supprimé" : "à rajouter" }}
+    {{
+      this.$attrs.feedback == 'deletion'
+        ? 'Objet retrouvé'
+        : this.$attrs.feedback == 'addition'
+        ? 'Objet ajouté'
+        : 'à rajouter'
+    }}
   </h3>
 </template>
 

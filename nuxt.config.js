@@ -55,6 +55,13 @@ export default {
   vuetify: {
     customVariables: ['~/assets/app.scss'],
     treeShake: true,
+    defaultAssets: {
+      font: true,
+      icons: 'md'
+    },
+    icons: {
+      iconfont: 'md',
+     },
     theme: {
       options: {
         customProperties: true

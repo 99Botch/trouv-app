@@ -5,7 +5,6 @@
     <Navigation class="px-3 pb-10" />
 
     <AddObjectBtn />
-
     <v-data-table
       :headers="headers"
       :items="lObjects"
@@ -67,8 +66,13 @@ export default {
       { text: 'Actions', value: 'callToAction' },
     ],
   }),
-  beforeMount() {
+  async beforeMount() {
     this.getObjects()
+    if (this.$store.getters['feedback/getFeedback']) {
+      this.feedback = this.$store.getters['feedback/getFeedback']
+      await new Promise((r) => setTimeout(r, 3000))
+      this.feedback = null
+    }
   },
   methods: {
     async deletion(_attrs) {
