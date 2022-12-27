@@ -3,6 +3,7 @@
   padding: 7px 15px;
   text-decoration: none;
   border-radius: 5px;
+  height: fit-content;
 }
 
 .add--link {
@@ -17,4 +18,14 @@
   display: flex;
   width: fit-content;
   margin-left: auto;
+}
+
+.update--btn{
+  text-transform: uppercase;
+  color: white !important;
+  text-decoration: none;
+  border-radius: 5px;
+  background-color: #EF6C00;
+  padding: 7px 15px;
+  font-size: 12px;
 }

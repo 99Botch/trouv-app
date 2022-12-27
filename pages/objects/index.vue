@@ -4,40 +4,67 @@
 
     <Navigation class="px-3 pb-10" />
 
-    <AddObjectBtn />
-    <v-data-table
-      :headers="headers"
-      :items="lObjects"
-      :items-per-page="5"
-      class="elevation-1 mt-4"
-    >
-      <!-- ITEM DETAILS -->
-      <template v-slot:item.details="{ item }">
-        <transition-group name="list" tag="p">
-          <span v-bind:key="item.details">{{
-            item.details.length > 50
-              ? `${setDetails(item.details)}...`
-              : setDetails(item.details)
-          }}</span>
-        </transition-group>
-      </template>
-      <!-- CALL TO ACTION -->
-      <template v-slot:item.callToAction="{ item }">
-        <transition-group name="list">
-          <ObjectCallToAction
-            class="mb-2"
-            v-bind:key="item._id"
-            :id="[
-              item._id,
-              lObjects.indexOf(
-                lObjects.find((element) => element._id == item._id)
-              ),
-            ]"
-            @deletion="deletion"
-          />
-        </transition-group>
-      </template>
-    </v-data-table>
+    <v-card class="d-flex pa-4 align-center" cols="12" sm="8" md="6" lg="4">
+      <v-text-field
+        class="mr-4 pt-0 mt-0"
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+      <AddObjectBtn />
+    </v-card>
+
+    <v-layout child-flex>
+      <v-data-table
+        fixed-header
+        :headers="headers"
+        :items="lObjects"
+        :items-per-page="5"
+        :search="search"
+        class="elevation-1 mt-4"
+      >
+        <!-- ITEM DETAILS -->
+        <template v-slot:item.details="{ item }">
+          <transition-group name="list" tag="p">
+            <span v-bind:key="item.details">{{
+              item.details.length > 50
+                ? `${setDetails(item.details)}...`
+                : setDetails(item.details)
+            }}</span>
+          </transition-group>
+        </template>
+        <!-- ITEM COLOURS -->
+        <template v-slot:item.colours="{ item }">
+          <ul class="colours--list">
+            <li
+              v-for="item in item.colours"
+              v-bind:key="item"
+              class="mb-1"
+              :data-colour="item"
+            ></li>
+          </ul>
+        </template>
+        <!-- CALL TO ACTION -->
+        <template v-slot:item.callToAction="{ item }">
+          <transition-group name="list">
+            <ObjectCallToAction
+              class="mb-2"
+              v-bind:key="item._id"
+              :id="[
+                item._id,
+                item.object,
+                lObjects.indexOf(
+                  lObjects.find((element) => element._id == item._id)
+                ),
+              ]"
+              @deletion="deletion"
+            />
+          </transition-group>
+        </template>
+      </v-data-table>
+    </v-layout>
   </div>
 </template>
 
@@ -49,6 +76,7 @@ import RequestFeedback from '~/components/RequestFeedback.vue'
 export default {
   name: 'ListeIndex',
   data: () => ({
+    search: '',
     isLoading: false,
     feedback: null,
     lObjects: [],
@@ -76,6 +104,7 @@ export default {
   },
   methods: {
     async deletion(_attrs) {
+      this.search = ''
       this.lObjects.splice(_attrs.index, 1)
       this.feedback = _attrs.feedback
       await new Promise((r) => setTimeout(r, 3000))
