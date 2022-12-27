@@ -1,6 +1,6 @@
 <template>
   <v-col justify="center" align="center" v-if="isLoading">
-    <h1 class="font-weight-medium my-10">Signaler l'objet perdu</h1>
+    <h1 class="font-weight-medium my-10">Modifier l'objet perdu</h1>
 
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6" lg="4">
@@ -83,16 +83,16 @@
         </v-menu>
       </v-col>
       <v-col cols="12" sm="8" md="6" lg="4">
-        <v-autocomplete
+        <v-select
+          v-model="form.size"
           ref="size"
           :items="sizes"
           :rules="[(v) => !!v || '(obligatoire)']"
-          v-model="form.size"
           label="Quel taille fait-il?"
           placeholder="Saisir la taille de l'objet"
           required
           outlined
-        ></v-autocomplete>
+        ></v-select>
       </v-col>
       <v-col cols="12" sm="8" md="12" lg="12">
         <v-textarea
@@ -187,7 +187,7 @@
       <v-col cols="12" sm="8" md="6" lg="12">
         <v-card-actions class="pa-0">
           <v-btn block depressed color="primary" @click="submit" class="py-6">
-            Signaler l'objet
+            Mettre a jour
           </v-btn>
         </v-card-actions>
       </v-col>
@@ -199,14 +199,10 @@
 import { axios, objectRoute } from '@/config/config'
 
 export default {
-  name: 'ObjectAdd',
+  name: 'ObjectUpdate',
 
-  async beforeMount() {
-    await this.$store
-      .dispatch('auth/fetchAuth', localStorage.getItem('tkn'))
-      .then(async () => {
-        this.isLoading = true
-      })
+  beforeMount() {
+    this.getObject()
   },
 
   data: () => ({
@@ -214,6 +210,7 @@ export default {
     isLoading: false,
     dialog: false,
     sizes: ['Petit', 'Moyen', 'Grand', 'Enorme'],
+    size: '',
     categories: [
       'Portefeuille & argent',
       'Papiers & documents officiel',
@@ -235,16 +232,8 @@ export default {
       'Image en fond & photo(s)',
     ],
     errorMessage: '',
-    form: {
-      object: '',
-      details: '',
-      category: '',
-      where: '',
-      when: '',
-      size: '',
-      pattern: '',
-      colours: [],
-    },
+    object: null,
+    form: {},
   }),
 
   methods: {
@@ -252,7 +241,7 @@ export default {
       const json = JSON.stringify(this.form)
       try {
         await axios
-          .post(`${objectRoute}`, json, {
+          .put(`${objectRoute}/${this.$route.query.id}`, json, {
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${localStorage.getItem('tkn')}`,
@@ -261,7 +250,7 @@ export default {
           .then(async (res) => {
             if (res.status == 200) {
               if (this.errorMessage) this.errorMessage = ''
-              this.$store.commit('feedback/setFeedback', 'addition')
+              this.$store.commit('feedback/setFeedback', 'updated')
               this.$router.push('/objects')
             }
           })
@@ -272,6 +261,36 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    async getObject() {
+      let token = localStorage.getItem('tkn')
+      await this.$store.dispatch('auth/fetchAuth', token).then(async () => {
+        try {
+          await axios
+            .get(`${objectRoute}/${this.$route.query.id}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            .then(async (res) => {
+              if (res.status == 200) {
+                for (const key in await res.data) {
+                  this.form[key] = res.data[key]
+                  this.size = res.data['size']
+                }
+                this.isLoading = true
+              }
+            })
+            .catch((err) => {
+              if (localStorage.getItem('tkn')) {
+                localStorage.removeItem('tkn')
+                this.$router.push('/')
+              } else console.log(err)
+            })
+        } catch (err) {
+          console.log(err)
+        }
+      })
     },
   },
 }
