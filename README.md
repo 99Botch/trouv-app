@@ -4,7 +4,7 @@ Voici le repo de l'application trouv (https://trouv-app.onrender.com)<br /><br /
 Le repo de l'api est ici: https://github.com/99Botch/trouv-api
 
 # ATTENTION
-J'utilise le free tier d'onrender pour host l'app & l'api. La première requ
+J'utilise le free tier d'onrender pour host l'app & l'api. La première requête peut prendre du temps
 
 ## Installation
 Afin d'installer l'application en local, faites: ```npm install``` puis ```npm run dev```<br /><br />
