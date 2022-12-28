@@ -9,7 +9,7 @@ J'utilise le free tier d'onrender pour host l'app & l'api. La première requ
 ## Installation
 Afin d'installer l'application en local, faites: ```npm install``` puis ```npm run dev```<br /><br />
 
-Pour la oduction, faites: ```npm run generate``` puis ```npm run start```
+Pour la production, faites: ```npm run generate``` puis ```npm run start```
 
 ## Connection
 Si vous souhaitez vous connecter directement, les identifiants sont ```tester@mail.com``` & ```Secret08@```
