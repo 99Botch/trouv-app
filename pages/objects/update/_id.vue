@@ -1,3 +1,4 @@
+<!-- Voir la partie script, le html est le même que la page add ou le login -->
 <template>
   <v-col justify="center" align="center" v-if="isLoading">
     <h1 class="font-weight-medium my-10">Modifier l'objet perdu</h1>
@@ -277,6 +278,12 @@ export default {
                 Authorization: `Bearer ${token}`,
               },
             })
+            /**
+             * étant donné que je souhaite updater un objet prééxistant, la première étape consiste à aller chercher l'objet en question
+             * dans le hook beforeMount
+             * 
+             * les attributs de form sont généré autommatiquement avec la loop for...in
+             */
             .then(async (res) => {
               if (res.status == 200) {
                 for (const key in await res.data) {

@@ -1,3 +1,5 @@
+<!-- Voir addObject -->
+
 <template>
   <span class="call--action">
     <v-dialog v-model="dialog" width="500">

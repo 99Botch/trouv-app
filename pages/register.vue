@@ -1,3 +1,4 @@
+<!-- Voir index.vue -->
 <template>
   <v-col justify="center" align="center">
     <h1 class="font-weight-medium my-10">Créer mon compte Trouv</h1>

@@ -1,3 +1,4 @@
+<!-- Voir login. Les seules changements sont les components de vuetify avec des règles adapté au form -->
 <template>
   <v-col justify="center" align="center" v-if="isLoading">
     <h1 class="font-weight-medium my-10">Signaler l'objet perdu</h1>

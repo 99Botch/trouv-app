@@ -1,3 +1,4 @@
+<!-- Voir addObject -->
 <template>
   <h3
     class="feedback"

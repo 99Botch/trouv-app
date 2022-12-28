@@ -1,3 +1,4 @@
+//voir auth.js
 export const state = () => ({
   feedback: '',
 })

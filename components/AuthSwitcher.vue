@@ -1,3 +1,5 @@
+<!-- Voir addObject -->
+
 <template>
   <v-row justify="center" class="mt-4">
     <v-col cols="12" sm="8" md="5" lg="4">
