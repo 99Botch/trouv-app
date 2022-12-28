@@ -100,7 +100,6 @@ export default {
             }
           })
           .catch((err) => {
-            console.log(err.response.status)
             if (err.response.status == 404)
               this.errorMessage = 'Echec | réessayez plus tard'
             else if (err.response.status == 401)

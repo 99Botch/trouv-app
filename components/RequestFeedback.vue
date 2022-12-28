@@ -20,5 +20,9 @@
 <script>
 export default {
   name: 'RequestFeedback',
+  beforeMount() {
+    if (this.$store.getters['feedback/getFeedback'])
+      this.$store.commit('feedback/setFeedback', null)
+  },
 }
 </script>

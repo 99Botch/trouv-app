@@ -77,6 +77,9 @@
             ></v-text-field>
           </template>
           <v-date-picker
+            :allowed-dates="
+              (date) => date <= new Date().toISOString().substr(0, 10)
+            "
             v-model="form.when"
             @input="menu2 = false"
           ></v-date-picker>
@@ -180,7 +183,9 @@
         </span>
       </v-col>
 
-      <p class="caption red--text text-right mt-4 mb-0 mx-4 error--message d-flex error--form">
+      <p
+        class="caption red--text text-right mt-4 mb-0 mx-4 error--message d-flex error--form"
+      >
         {{ errorMessage }}
       </p>
 
@@ -209,7 +214,7 @@ export default {
     menu2: null,
     isLoading: false,
     dialog: false,
-    sizes: ['Petit', 'Moyen', 'Grand', 'Enorme'],
+    sizes: ['Petit', 'Moyen', 'Grand', 'Énorme'],
     size: '',
     categories: [
       'Portefeuille & argent',

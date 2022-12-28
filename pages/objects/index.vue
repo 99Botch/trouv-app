@@ -1,7 +1,8 @@
 <template>
   <div v-if="isLoading">
-    <RequestFeedback v-if="feedback" :feedback="feedback ? feedback : null" />
 
+    <RequestFeedback v-if="feedback" :feedback="feedback ? feedback : null" />
+    
     <Navigation class="px-3 pb-10" />
 
     <v-card class="d-flex pa-4 align-center" cols="12" sm="8" md="6" lg="4">
@@ -12,6 +13,7 @@
         label="Search"
         single-line
         hide-details
+        outlined
       ></v-text-field>
       <AddObjectBtn />
     </v-card>
